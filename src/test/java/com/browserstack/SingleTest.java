@@ -5,27 +5,33 @@ import org.openqa.selenium.WebElement;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import io.percy.selenium.Percy;
+
 
 public class SingleTest extends BrowserStackTestNGTest {
-
+    private static Percy percy;
     @Test
     public void test() throws Exception {
-    	  // navigate to bstackdemo
-        driver.get("https://www.bstackdemo.com");
+        driver.get("https://portal.mobysoft.uk/#/");
         
-        // Check the title
-        Assert.assertTrue(driver.getTitle().matches("StackDemo"));
-        
-        // Save the text of the product for later verify
-        String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
-        // Click on add to cart button
-        driver.findElement(By.xpath("//*[@id=\"1\"]/div[4]")).click();
-        
-        // See if the cart is opened or not
-        Assert.assertTrue(driver.findElement(By.cssSelector(".float\\-cart__content")).isDisplayed());
-        
-        // Check the product inside the cart is same as of the main page
-        String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
-        Assert.assertEquals(productOnScreenText, productOnCartText);
+        percy = new Percy(driver);
+        percy.snapshot("RentSense Login-Page");
+
+        Thread.sleep(10000);
+
+        WebElement usernameField = driver.findElement(By.id("loginUsername"));
+        usernameField.sendKeys("");
+
+        WebElement passwordField = driver.findElement(By.id("loginPassword"));
+        passwordField.sendKeys("");
+
+        WebElement login = driver.findElement(By.id("loginButton"));
+        login.click();
+
+        Thread.sleep(5000);
+
+        percy.snapshot("RentSense Home-Page");
+
+        Thread.sleep(5000);
     }
 }

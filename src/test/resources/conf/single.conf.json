@@ -7,7 +7,7 @@
     "bstack:options": {
       "buildName": "browserstack-build-1",
       "sessionName": "BStack single java-selenium",
-      "browserVersion": "latest",
+      "browserVersion": "114",
       "debug": true
     }
   },
